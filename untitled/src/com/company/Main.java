@@ -40,7 +40,7 @@ public class Main {
             }
         }
 
-        File csvFile = new File(folderPath+"\\JWINF_Import.csv");
+        File csvFile = new File(folderPath+"\\output\\JWINF_Import.csv");
         FileWriter fileWriter = new FileWriter(csvFile);
 
         for (String[] data : contents) {
