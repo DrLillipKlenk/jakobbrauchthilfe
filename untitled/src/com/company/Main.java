@@ -40,6 +40,8 @@ public class Main {
             }
         }
 
+        new File(folderPath+"\\output").mkdirs();
+
         File csvFile = new File(folderPath+"\\output\\JWINF_Import.csv");
         FileWriter fileWriter = new FileWriter(csvFile);
 
@@ -58,6 +60,6 @@ public class Main {
         }
         fileWriter.close();
 
-        System.out.println("Datei wurde in Inputordner abgelegt");
+        System.out.println("Datei wurde unter: "+folderPath+"\\output\\JWINF_Import.csv abgelegt");
     }
 }
