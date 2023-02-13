@@ -20,10 +20,23 @@ public class Main {
 class Act{
 
     public void gui() throws IOException{
-        JFileChooser chooser = new JFileChooser();
+        final JFileChooser chooser = new JFileChooser() {
+            public void approveSelection() {
+                if (getSelectedFile().isFile()) {
+                    return;
+                } else
+                    super.approveSelection();
+            }
+        };
+        chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        File file = chooser.getCurrentDirectory();
-        chooser.showSaveDialog(null);
+        chooser.setAcceptAllFileFilterUsed(false);
+        chooser.setSelectedFile(new java.io.File("."));
+        chooser.showOpenDialog(null);
+
+        File file = chooser.getSelectedFile();
+
+        System.out.println(file.getAbsolutePath());
 
         createFile(file.getAbsolutePath());
     }
