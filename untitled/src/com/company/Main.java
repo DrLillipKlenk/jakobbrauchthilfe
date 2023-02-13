@@ -1,23 +1,37 @@
 package com.company;
 
+import javax.swing.*;
 import java.io.FileWriter;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-        Scanner s = new Scanner(System.in);
-        System.out.println("Pfad zum Ordner eigeben");
-        String folderPath = s.next();
+    public static void main(String[] args) throws IOException {
+        Act act = new Act();
+        act.gui();
+    }
+}
 
+class Act{
+
+    public void gui() throws IOException{
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        File file = chooser.getCurrentDirectory();
+        chooser.showSaveDialog(null);
+
+        createFile(file.getAbsolutePath());
+    }
+
+    public void createFile(String path) throws IOException {
         ArrayList<String> fileList = new ArrayList<>();
 
-        File folder =new File(folderPath);
+        File folder =new File(path);
         File[] listOfFiles = folder.listFiles();
 
         for (File file : listOfFiles) {
@@ -30,7 +44,7 @@ public class Main {
         contents.add(new String[]{"Gruppenname","Stufe","Vorname","Nachname","Geschlecht"});
 
         for(int i=0;i<fileList.size();i++){
-            List <String> input = Files.readAllLines(Paths.get(folderPath+"\\"+fileList.get(i)));
+            List <String> input = Files.readAllLines(Paths.get(path+"\\"+fileList.get(i)));
 
             String klasse = input.get(0).replace(",","").split(" ")[1];
 
@@ -40,9 +54,9 @@ public class Main {
             }
         }
 
-        new File(folderPath+"\\output").mkdirs();
+        new File(path+"\\output").mkdirs();
 
-        File csvFile = new File(folderPath+"\\output\\JWINF_Import.csv");
+        File csvFile = new File(path+"\\output\\JWINF_Import.csv");
         FileWriter fileWriter = new FileWriter(csvFile);
 
         for (String[] data : contents) {
@@ -60,6 +74,6 @@ public class Main {
         }
         fileWriter.close();
 
-        System.out.println("Datei wurde unter: "+folderPath+"\\output\\JWINF_Import.csv abgelegt");
+        System.out.println("Datei wurde unter: "+path+"\\output\\JWINF_Import.csv abgelegt");
     }
 }
